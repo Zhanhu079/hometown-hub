@@ -69,7 +69,7 @@ const NewPost = () => {
         </select>
         <div className="flex justify-between">
           <button type="button" className="text-gray-500">Cancel</button>
-          <button type="submit" className="bg-blue-500 text-white rounded-lg px-4 py-2">Post</button>
+          <button type="submit" className="bg-mainOrange text-white rounded-lg px-4 py-2">Post</button>
         </div>
       </form>
       <ToastContainer 

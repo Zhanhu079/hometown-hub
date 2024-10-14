@@ -3,6 +3,7 @@ import { useState } from 'react';
 const ProfileSettings = () => {
   const [username, setUsername] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
+  const [location, setLocation] = useState(''); // State for location
 
   // Handle file input and preview the image
   const handleProfilePictureChange = (e) => {
@@ -17,7 +18,7 @@ const ProfileSettings = () => {
   };
 
   const handleSaveProfile = () => {
-    console.log('Profile saved:', { username, profilePicture });
+    console.log('Profile saved:', { username, profilePicture, location });
     // Here you would typically send the data to a backend or storage
   };
 
@@ -32,6 +33,16 @@ const ProfileSettings = () => {
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        className="border rounded-lg p-3 mb-4 w-full border-gray-300 focus:border-mainOrange focus:ring focus:ring-mainOrange focus:ring-opacity-50"
+      />
+
+      {/* Location Input */}
+      <label className="block mb-2 font-semibold">Update Location</label>
+      <input
+        type="text"
+        placeholder="Location"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
         className="border rounded-lg p-3 mb-4 w-full border-gray-300 focus:border-mainOrange focus:ring focus:ring-mainOrange focus:ring-opacity-50"
       />
 

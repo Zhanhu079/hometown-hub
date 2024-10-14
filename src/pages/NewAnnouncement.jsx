@@ -75,7 +75,7 @@ const NewAnnouncement = () => {
         />
         <div className="flex justify-between">
           <button type="button" className="text-gray-500">Cancel</button>
-          <button type="submit" className="bg-blue-500 text-white rounded-lg px-4 py-2">Post Announcement</button>
+          <button type="submit" className="bg-mainOrange text-white rounded-lg px-4 py-2">Post Announcement</button>
         </div>
       </form>
       <ToastContainer 
