@@ -11,7 +11,7 @@ const Post = ({
   commentsCount,
 }) => {
   return (
-    <div className=" rounded-xl overflow-hidden p-5">
+    <div className="rounded-xl overflow-hidden p-5">
       <div className="flex items-center gap-2 mb-4">
         <img className="w-9 h-9 rounded-full" src={profilePic} alt="pfp" />
         <div>
@@ -23,12 +23,14 @@ const Post = ({
         </div>
       </div>
 
-      {/* Post content  */}
-      <img
-        className="object-contain rounded-xl"
-        src={content}
-        alt="post_thumbnail"
-      />
+      {/* Conditionally render post content */}
+      {content && (
+        <img
+          className="object-contain rounded-xl"
+          src={content}
+          alt="post_thumbnail"
+        />
+      )}
 
       {/* Post actions */}
       <div className="mt-3 flex items-center">
