@@ -1,4 +1,5 @@
 import AnnouncementCard from "../components/AnnouncementCard";
+import PostsSection from "../components/PostsSection";
 
 const Home = () => {
   // Array of announcement data
@@ -46,7 +47,7 @@ const Home = () => {
   ];
 
   return (
-    <div>
+    <div className="pb-10">
       <h1 className="font-bold text-4xl text-center text-mainOrange mb-11">
         HOMETOWN HUB
       </h1>
@@ -55,7 +56,7 @@ const Home = () => {
         <h3 className="font-semibold text-xl">Featured Announcements</h3>
 
         {/* Container for horizontal scrolling */}
-        <div className="flex overflow-x-auto mt-5 space-x-5 p-5">
+        <div className="flex overflow-x-auto my-5 space-x-5 p-5">
           {announcements.map((announcement, index) => (
             <AnnouncementCard
               key={index}
@@ -67,6 +68,12 @@ const Home = () => {
             />
           ))}
         </div>
+      </div>
+
+      {/* Posts  */}
+      <div className="mt-10">
+        <h3 className="font-semibold text-xl">Posts</h3>
+        <PostsSection />
       </div>
     </div>
   );
