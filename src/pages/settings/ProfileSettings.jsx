@@ -4,12 +4,14 @@ import { doc, setDoc } from 'firebase/firestore';
 import { ref, uploadString } from 'firebase/storage';
 import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const ProfileSettings = () => {
   const [username, setUsername] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
   const [location, setLocation] = useState('');
   const [bio, setBio] = useState('');
+  const navigate = useNavigate(); // Create navigate function
 
   // Handle file input and preview the image
   const handleProfilePictureChange = (e) => {
@@ -53,6 +55,9 @@ const ProfileSettings = () => {
       const userDocRef = doc(db, 'users', userId);
       await setDoc(userDocRef, profileData, { merge: true });
       toast.success('Profile saved successfully'); // Show success toast
+
+      // Navigate back to the profile page after saving
+      navigate('/profile');
     } catch (error) {
       console.error('Error saving profile:', error);
       toast.error('Error saving profile'); // Show error toast

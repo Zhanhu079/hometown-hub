@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { db } from '../firebase'; // Import your Firebase configuration
+import { collection, addDoc } from 'firebase/firestore'; // Import Firestore functions
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -8,33 +10,32 @@ const NewAnnouncement = () => {
   const [date, setDate] = useState('');
   const [location, setLocation] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simulate an announcement submission using a Promise
-    new Promise((resolve, reject) => {
-      // Simulate an API call or some processing
-      setTimeout(() => {
-        if (title && description && date && location) {
-          resolve('Announcement created successfully!');
-        } else {
-          reject('Failed to create announcement. Please fill in all fields.');
-        }
-      }, 1000); // Simulating network delay
-    })
-      .then((message) => {
-        // Show success toast
-        toast.success(message);
-        // Clear form fields
-        setTitle('');
-        setDescription('');
-        setDate('');
-        setLocation('');
-      })
-      .catch((error) => {
-        // Show error toast
-        toast.error(error);
+    try {
+      // Add a new announcement to Firestore
+      const announcementRef = collection(db, 'announcements');
+      await addDoc(announcementRef, {
+        title,
+        description,
+        date,
+        location,
+        createdAt: new Date(), // Store creation time
       });
+
+      // Show success toast
+      toast.success('Announcement created successfully!');
+      // Clear form fields
+      setTitle('');
+      setDescription('');
+      setDate('');
+      setLocation('');
+    } catch (error) {
+      // Show error toast
+      toast.error('Failed to create announcement. Please try again.');
+      console.error('Error adding document: ', error);
+    }
   };
 
   return (

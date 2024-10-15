@@ -5,6 +5,7 @@ import { db, auth, storage } from "../firebase"; // Adjust the path as needed
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, getDownloadURL } from "firebase/storage"; // Importing getDownloadURL
+import SkeletonLoader from "../components/SkeletonLoader";
 
 const Profile = () => {
   const [userId, setUserId] = useState(null);
@@ -67,7 +68,11 @@ const Profile = () => {
   }, [userId]); // Depend on userId to re-fetch data when it changes
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading state while fetching data
+    return (
+      <div className="container mx-auto p-6">
+        <SkeletonLoader /> {/* Show skeleton loader while loading */}
+      </div>
+    );
   }
 
   return (
