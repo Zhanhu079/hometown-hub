@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -29,10 +30,10 @@ const Profile = () => {
           />
         </div>
         <div className="flex-grow md:ml-6">
-          <h1 className="font-bold text-3xl mb-1">{username}</h1>
-          <p className="text-gray-600 mb-1">{location}</p>
+          <h1 className="font-bold font-poppins text-3xl mb-1">{username}</h1>
+          <p className="text-gray-600 font-quicksand mb-1">{location}</p>
           <Link to={"/settings/profile_settings"}>
-            <button className="bg-mainOrange text-white rounded-lg px-4 py-2 transition duration-200 hover:bg-opacity-90">
+            <button className="bg-mainOrange font-roboto text-white rounded-lg px-4 py-2 transition duration-200 hover:bg-opacity-90">
               Edit Profile
             </button>
           </Link>

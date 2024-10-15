@@ -13,13 +13,13 @@ const Post = ({
   return (
     <div className="rounded-xl overflow-hidden p-5">
       <div className="flex items-center gap-2 mb-4">
-        <img className="w-9 h-9 rounded-full" src={profilePic} alt="pfp" />
+        <img className="w-10 h-10 rounded-full" src={profilePic} alt="pfp" />
         <div>
-          <h1 className="font-semibold">
+          <h1 className="font-semibold font-poppins">
             {username}{" "}
             <span className="text-slate-400 font-normal">• {postedOn}</span>
           </h1>
-          <p className="text-[14px]">{caption}</p>
+          <p className="text-[14px] font-quicksand">{caption}</p>
         </div>
       </div>
 

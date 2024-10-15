@@ -36,20 +36,30 @@ const NewPost = () => {
 
   return (
     <div className="max-w-xl mx-auto p-5">
-      <h1 className="font-bold text-2xl mb-4">Create a New Post</h1>
+      <h1 className="font-bold text-2xl mb-4 font-poppins">Create a New Post</h1>
       <div className="flex items-center mb-4">
-        <img src="https://th.bing.com/th/id/OIP.PztowP3ljup0SM75tkDimQHaHa?rs=1&pid=ImgDetMain" alt="Profile" className="w-10 h-10 rounded-full mr-2" />
-        <h2 className="font-semibold">Username</h2>
+        <img 
+          src="https://th.bing.com/th/id/OIP.PztowP3ljup0SM75tkDimQHaHa?rs=1&pid=ImgDetMain" 
+          alt="Profile" 
+          className="w-10 h-10 rounded-full mr-2" 
+        />
+        <h2 className="font-semibold font-poppins">Username</h2>
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <textarea
-          className="border rounded-lg p-2 mb-4"
+          className="border rounded-lg p-2 mb-4 font-quicksand"
           placeholder="What’s on your mind?"
           value={caption}
           onChange={(e) => setCaption(e.target.value)}
           maxLength={250}
         />
-        {content && <img src={URL.createObjectURL(content)} alt="Preview" className="mb-4" />}
+        {content && (
+          <img 
+            src={URL.createObjectURL(content)} 
+            alt="Preview" 
+            className="mb-4" 
+          />
+        )}
         <input
           type="file"
           accept="image/*, video/*"
@@ -59,7 +69,7 @@ const NewPost = () => {
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="border rounded-lg mb-4 p-2"
+          className="border rounded-lg mb-4 p-2 font-quicksand"
         >
           <option value="">Select a Category</option>
           <option value="announcements">Announcements</option>
@@ -68,8 +78,8 @@ const NewPost = () => {
           <option value="trade">Trade</option>
         </select>
         <div className="flex justify-between">
-          <button type="button" className="text-gray-500">Cancel</button>
-          <button type="submit" className="bg-mainOrange text-white rounded-lg px-4 py-2">Post</button>
+          <button type="button" className="text-gray-500 font-quicksand">Cancel</button>
+          <button type="submit" className="bg-mainOrange text-white rounded-lg px-4 py-2 font-roboto">Post</button>
         </div>
       </form>
       <ToastContainer 

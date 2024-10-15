@@ -39,30 +39,29 @@ const NewAnnouncement = () => {
 
   return (
     <div className="max-w-xl mx-auto p-5">
-      <h1 className="font-bold text-2xl mb-4">New Announcement</h1>
+      <h1 className="font-bold text-2xl mb-4 font-poppins">New Announcement</h1>
       <form onSubmit={handleSubmit} className="flex flex-col">
         <input
           type="text"
           placeholder="Announcement Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border rounded-lg p-2 mb-4"
+          className="border rounded-lg p-2 mb-4 font-quicksand"
           required
         />
         <textarea
           placeholder="Announcement Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="border rounded-lg p-2 mb-4"
+          className="border rounded-lg p-2 mb-4 font-quicksand"
           rows="4"
           required
         />
-       
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="border rounded-lg p-2 mb-4"
+          className="border rounded-lg p-2 mb-4 font-quicksand"
           required
         />
         <input
@@ -70,12 +69,12 @@ const NewAnnouncement = () => {
           placeholder="Location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="border rounded-lg p-2 mb-4"
+          className="border rounded-lg p-2 mb-4 font-quicksand"
           required
         />
         <div className="flex justify-between">
-          <button type="button" className="text-gray-500">Cancel</button>
-          <button type="submit" className="bg-mainOrange text-white rounded-lg px-4 py-2">Post Announcement</button>
+          <button type="button" className="text-gray-500 font-quicksand">Cancel</button>
+          <button type="submit" className="bg-mainOrange text-white rounded-lg px-4 py-2 font-roboto">Post Announcement</button>
         </div>
       </form>
       <ToastContainer 

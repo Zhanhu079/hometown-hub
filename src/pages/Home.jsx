@@ -48,12 +48,12 @@ const Home = () => {
 
   return (
     <div className="pb-10">
-      <h1 className="font-bold text-4xl text-center text-mainOrange mb-11">
+      <h1 className="font-bold font-poppins text-4xl text-center text-mainOrange mb-11">
         HOMETOWN HUB
       </h1>
 
       <div>
-        <h3 className="font-semibold text-xl">Featured Announcements</h3>
+        <h3 className="font-semibold font-poppins text-xl">Featured Announcements</h3>
 
         {/* Container for horizontal scrolling */}
         <div className="flex overflow-x-auto my-5 space-x-5 p-5">
@@ -72,7 +72,7 @@ const Home = () => {
 
       {/* Posts  */}
       <div className="mt-10">
-        <h3 className="font-semibold text-xl">Posts</h3>
+        <h3 className="font-semibold font-poppins text-xl">Posts</h3>
         <PostsSection />
       </div>
     </div>

@@ -58,7 +58,7 @@ const Categories = () => {
 
   return (
     <div>
-      <h1 className="font-bold text-2xl">Categories</h1>
+      <h1 className="font-bold font-poppins text-2xl">Categories</h1>
 
       <div className="mt-20 mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 max-w-screen-xl">
         {categories.map((category, index) => (

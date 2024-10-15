@@ -18,7 +18,10 @@ const Settings = () => {
             <NavLink 
               to="/settings/profile_settings" 
               className="flex items-center"
-              style={({ isActive }) => ({ color: isActive ? mainOrange : 'inherit' })}
+              style={({ isActive }) => ({
+                color: isActive ? mainOrange : 'inherit',
+                fontWeight: isActive ? 'bold' : 'normal'
+              })}
             >
               <FaUserEdit className="mr-2" style={{ color: mainOrange }} />
               Profile Settings
@@ -28,7 +31,10 @@ const Settings = () => {
             <NavLink 
               to="/settings/privacy" 
               className="flex items-center"
-              style={({ isActive }) => ({ color: isActive ? mainOrange : 'inherit' })}
+              style={({ isActive }) => ({
+                color: isActive ? mainOrange : 'inherit',
+                fontWeight: isActive ? 'bold' : 'normal'
+              })}
             >
               <FaLock className="mr-2" style={{ color: mainOrange }} />
               Privacy and Security
@@ -38,7 +44,10 @@ const Settings = () => {
             <NavLink 
               to="/settings/account" 
               className="flex items-center"
-              style={({ isActive }) => ({ color: isActive ? mainOrange : 'inherit' })}
+              style={({ isActive }) => ({
+                color: isActive ? mainOrange : 'inherit',
+                fontWeight: isActive ? 'bold' : 'normal'
+              })}
             >
               <FaTrashAlt className="mr-2" style={{ color: mainOrange }} />
               Account Management
@@ -48,7 +57,10 @@ const Settings = () => {
             <NavLink 
               to="/settings/help" 
               className="flex items-center"
-              style={({ isActive }) => ({ color: isActive ? mainOrange : 'inherit' })}
+              style={({ isActive }) => ({
+                color: isActive ? mainOrange : 'inherit',
+                fontWeight: isActive ? 'bold' : 'normal'
+              })}
             >
               <FaFlag className="mr-2" style={{ color: mainOrange }} />
               Help and Support
@@ -64,7 +76,7 @@ const Settings = () => {
           <Route path="privacy" element={<PrivacyAndSecurity />} />
           <Route path="account" element={<AccountManagement />} />
           <Route path="help" element={<HelpAndSupport />} />
-          <Route path="*" element={<h2>Select a setting to view</h2>} /> {/* Fallback route */}
+          <Route path="*" element={<h2 className="text-lg">Select a setting to view</h2>} /> {/* Fallback route */}
         </Routes>
       </div>
     </div>

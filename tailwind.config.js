@@ -11,6 +11,11 @@ export default {
         activePurple: '#0D276B',
         inactiveGray: '#C4C4C4',
       },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        quicksand: ['Quicksand', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
+      },
     },
   },
   plugins: [],

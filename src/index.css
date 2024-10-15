@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Quicksand:wght@400&family=Roboto:wght@400&display=swap');
+
 /* Custom Scrollbar for WebKit browsers */
 ::-webkit-scrollbar {
     width: 5px; /* Adjusted width of the scrollbar */
