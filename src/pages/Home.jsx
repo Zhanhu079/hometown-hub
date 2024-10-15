@@ -17,7 +17,12 @@ const Home = () => {
           id: doc.id,
           ...doc.data(), // Spread the document data
         }));
-        setAnnouncements(announcementList);
+
+        // Sort by date and limit to 10 most recent announcements
+        const sortedAnnouncements = announcementList.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const recentAnnouncements = sortedAnnouncements.slice(0, 10);
+
+        setAnnouncements(recentAnnouncements);
       } catch (error) {
         console.error("Error fetching announcements: ", error);
       } finally {
@@ -39,7 +44,7 @@ const Home = () => {
       </h1>
 
       <div>
-        <h3 className="font-semibold font-poppins text-xl">Featured Announcements</h3>
+        <h3 className="font-semibold font-poppins text-xl">Recent Announcements</h3>
 
         {/* Container for horizontal scrolling */}
         <div className="flex overflow-x-auto my-5 space-x-5 p-5">

@@ -5,11 +5,17 @@ const Post = ({
   profilePic,
   username,
   caption,
-  postedOn,
+  createdAt, // Changed from postedOn to createdAt
   content,
   likes,
   commentsCount,
 }) => {
+  // Format the createdAt timestamp
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp.seconds * 1000); // Convert Firestore timestamp to Date
+    return date.toLocaleString(); // Format to locale string (you can customize this)
+  };
+
   return (
     <div className="rounded-xl overflow-hidden p-5">
       <div className="flex items-center gap-2 mb-4">
@@ -17,7 +23,7 @@ const Post = ({
         <div>
           <h1 className="font-semibold font-poppins">
             {username}{" "}
-            <span className="text-slate-400 font-normal">• {postedOn}</span>
+            <span className="text-slate-400 text-[12px] font-normal">• {formatDate(createdAt)}</span>
           </h1>
           <p className="text-[14px] font-quicksand">{caption}</p>
         </div>

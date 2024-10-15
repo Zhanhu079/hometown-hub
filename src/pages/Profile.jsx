@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { db, auth, storage } from "../firebase"; // Adjust the path as needed
+import { db, auth, storage } from "../firebase";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { ref, getDownloadURL } from "firebase/storage"; // Importing getDownloadURL
@@ -13,6 +13,7 @@ const Profile = () => {
   const [profilePicture, setProfilePicture] = useState("");
   const [location, setLocation] = useState("");
   const [bio, setBio] = useState("");
+  const [email, setEmail] = useState(""); // State for email
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -42,6 +43,7 @@ const Profile = () => {
           setUsername(data.username || "User"); // Default username
           setLocation(data.location || "Location not set");
           setBio(data.bio || "No bio available");
+          setEmail(data.email || "No email available"); // Fetch email from user data
 
           // Fetch profile picture URL from Firebase Storage
           const profilePicRef = ref(storage, `profilePictures/${userId}`);
@@ -106,7 +108,7 @@ const Profile = () => {
       {/* Contact Information Section */}
       <div className="mb-6 p-4 border rounded-lg shadow-md bg-white">
         <h2 className="font-semibold text-2xl mb-2">Contact Information</h2>
-        <p className="text-gray-700">Email: johndoe@example.com</p>
+        <p className="text-gray-700">Email: {email}</p> {/* Display user email */}
       </div>
 
       {/* Posts Section */}
@@ -118,7 +120,7 @@ const Profile = () => {
           {posts.map((post) => (
             <Link key={post.id} to={`/post/${post.id}`} className="block">
               <img
-                src={post.image}
+                src={post.content || post.content} // Use the correct field for the post image
                 alt={`Post Thumbnail ${post.id}`}
                 className="w-full h-52 rounded-lg object-cover"
               />

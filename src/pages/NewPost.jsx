@@ -1,50 +1,138 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import { db } from "../firebase"; // Import your Firebase Firestore configuration
+import { collection, addDoc, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore"; // Import Firestore functions
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Import Firebase Storage functions
+import { getAuth } from "firebase/auth"; // Import Firebase Authentication
 
 const NewPost = () => {
   const [caption, setCaption] = useState("");
   const [content, setContent] = useState(null);
   const [category, setCategory] = useState("");
+  const [user, setUser] = useState(null); // State to hold the current user
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // Fetch the current user and their profile picture
+  useEffect(() => {
+    const fetchUser = async () => {
+      const auth = getAuth(); // Initialize Firebase Authentication
+      const currentUser = auth.currentUser; // Get the current user
 
-    // Simulate a post submission using a Promise
-    new Promise((resolve, reject) => {
-      // Simulate an API call or some processing
-      setTimeout(() => {
-        if (caption && category) {
-          resolve("Post created successfully!");
+      if (currentUser) {
+        const userDoc = await getDoc(doc(db, "users", currentUser.uid)); // Assuming user data is stored in 'users' collection
+
+        if (userDoc.exists()) {
+          const userData = { ...userDoc.data(), uid: currentUser.uid };
+
+          // Get the download URL for the profile picture
+          if (userData.profilePicture) {
+            const storage = getStorage();
+            const profilePicRef = ref(storage, userData.profilePicture);
+            
+            try {
+              const url = await getDownloadURL(profilePicRef);
+              userData.profilePicture = url; // Set the full URL
+            } catch (error) {
+              console.error("Error getting profile picture URL:", error);
+              userData.profilePicture = 'path/to/default/profile-pic.png'; // Fallback URL if there's an error
+            }
+          }
+
+          console.log("Fetched User Data:", userData); // Log user data
+          setUser(userData); // Set user data in state
         } else {
-          reject("Failed to create post. Please fill in all fields.");
+          console.error("No such user document!");
         }
-      }, 1000); // Simulating network delay
-    })
-      .then((message) => {
-        // Show success toast
-        toast.success(message);
-        // Clear form fields
-        setCaption("");
-        setContent(null);
-        setCategory("");
-      })
-      .catch((error) => {
-        // Show error toast
-        toast.error(error);
+      } else {
+        console.error("No current user found!");
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    // Check if all fields are filled
+    if (!caption || !category || !user) {
+      toast.error("Failed to create post. Please fill in all fields.");
+      return;
+    }
+  
+    try {
+      // Create a new post object
+      const newPost = {
+        caption,
+        category,
+        createdAt: new Date(),
+        userId: user.uid,
+        username: user.username || "",
+        profilePicture: user.profilePicture || "", // Use profilePicture
+        likes: 0,
+        commentsCount: 0,
+      };
+  
+      // Log the new post to inspect its structure and values
+      console.log("New Post Object:", newPost);
+  
+      // If there is content (image or video), handle it
+      if (content) {
+        const fileURL = await uploadContent(content);
+        newPost.content = fileURL;
+      }
+  
+      // Add the new post to the Firestore "posts" collection
+      const postDocRef = await addDoc(collection(db, "posts"), newPost);
+      
+      // Now, update the user's document to include the post ID
+      const userDocRef = doc(db, "users", user.uid);
+      await updateDoc(userDocRef, {
+        posts: arrayUnion(postDocRef.id), // Use arrayUnion to add the new post ID
       });
+  
+      // Show success toast
+      toast.success("Post created successfully!");
+  
+      // Clear form fields
+      setCaption("");
+      setContent(null);
+      setCategory("");
+    } catch (error) {
+      console.error("Error creating post: ", error);
+      toast.error(`Failed to create post. Error: ${error.message || "unknown"}`);
+    }
   };
+
+  const uploadContent = async (file) => {
+    const storage = getStorage(); // Initialize Firebase Storage
+    const storageRef = ref(storage, `posts/${file.name}`); // Create a reference for the file
+
+    // Upload the file to Firebase Storage
+    await uploadBytes(storageRef, file);
+
+    // Get the download URL
+    return await getDownloadURL(storageRef);
+  };
+
+  console.log(user); // Log the user object
 
   return (
     <div className="max-w-xl mx-auto p-5">
       <h1 className="font-bold text-2xl mb-4 font-poppins">Create a New Post</h1>
-      <div className="flex items-center mb-4">
-        <img 
-          src="https://th.bing.com/th/id/OIP.PztowP3ljup0SM75tkDimQHaHa?rs=1&pid=ImgDetMain" 
-          alt="Profile" 
-          className="w-10 h-10 rounded-full mr-2" 
-        />
-        <h2 className="font-semibold font-poppins">Username</h2>
-      </div>
+      {user && (
+        <div className="flex items-center mb-4">
+          <img 
+            src={user.profilePicture} // Use user's profile picture
+            alt="Profile" 
+            className="w-10 h-10 rounded-full mr-2" 
+            onError={(e) => {
+              e.target.onerror = null; // Prevents infinite loop
+              e.target.src = 'path/to/default/profile-pic.png'; // Use a default image if the user's image fails to load
+            }}
+          />
+          <h2 className="font-semibold font-poppins">{user.username}</h2> {/* Use user's username */}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="flex flex-col">
         <textarea
           className="border rounded-lg p-2 mb-4 font-quicksand"
@@ -83,14 +171,14 @@ const NewPost = () => {
         </div>
       </form>
       <ToastContainer 
-        position="top-right" // Positioning the toast in the top right corner
-        autoClose={5000} // Auto-close after 5 seconds
-        hideProgressBar={false} // Show progress bar
-        newestOnTop={true} // New toasts appear on top
-        closeOnClick // Allow closing on click
-        pauseOnHover // Pause on hover
-        draggable // Allow dragging
-        pauseOnFocusLoss // Pause on focus loss
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
       />
     </div>
   );
