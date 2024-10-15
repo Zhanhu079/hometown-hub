@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import 'react-toastify/dist/ReactToastify.css';
+import PostDetails from "./pages/PostDetails";
 
 function App() {
   // State to track if the user is authenticated
@@ -48,6 +49,7 @@ function App() {
                   <Route path="/settings/*" element={<Settings />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/notfound" element={<NotFound />} />
+                  <Route path="/post/:postId" element={<PostDetails />} />
                 </Routes>
               </div>
             </div>

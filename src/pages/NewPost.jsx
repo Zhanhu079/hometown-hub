@@ -160,10 +160,12 @@ const NewPost = () => {
           className="border rounded-lg mb-4 p-2 font-quicksand"
         >
           <option value="">Select a Category</option>
-          <option value="announcements">Announcements</option>
           <option value="events">Events</option>
+          <option value="services">Services</option>
+          <option value="jobs">Jobs</option>
+          <option value="marketplace">Marketplace</option>
           <option value="help">Help</option>
-          <option value="trade">Trade</option>
+          <option value="community">Community</option>
         </select>
         <div className="flex justify-between">
           <button type="button" className="text-gray-500 font-quicksand">Cancel</button>

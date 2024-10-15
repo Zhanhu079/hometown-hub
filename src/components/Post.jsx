@@ -13,7 +13,7 @@ const Post = ({
   // Format the createdAt timestamp
   const formatDate = (timestamp) => {
     const date = new Date(timestamp.seconds * 1000); // Convert Firestore timestamp to Date
-    return date.toLocaleString(); // Format to locale string (you can customize this)
+    return date.toLocaleString(); // Format to locale string
   };
 
   return (

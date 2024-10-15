@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import PropTypes from 'prop-types';
+
 
 const AnnouncementCard = ({ title, description, date, location, featured }) => {
   return (
@@ -14,14 +15,6 @@ const AnnouncementCard = ({ title, description, date, location, featured }) => {
       </div>
     </div>
   );
-};
-
-AnnouncementCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-  featured: PropTypes.bool
 };
 
 export default AnnouncementCard;
