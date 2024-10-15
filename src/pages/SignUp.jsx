@@ -1,13 +1,42 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import { Link, useNavigate } from 'react-router-dom';
+import { auth, db } from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { setDoc, doc } from 'firebase/firestore';
+import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 
-const SignUp = () => {
+const SignUp = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState(''); // State for username
+  const navigate = useNavigate();
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    // Handle sign-up logic (e.g., call API)
+    try {
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Save user to Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        email: user.email,
+        username: username, // Save the username
+        createdAt: new Date(),
+      });
+
+      // Show success toast
+      toast.success("Account created successfully!");
+
+      // Set authentication state and navigate
+      setIsAuthenticated(true);
+      navigate('/'); // Redirect to home or any other page
+    } catch (error) {
+      console.error("Error signing up:", error);
+      // Show error toast
+      toast.error("Error signing up. Please try again.");
+    }
   };
 
   return (
@@ -26,6 +55,19 @@ const SignUp = () => {
         {/* Sign Up Form */}
         <h2 className="font-poppins text-2xl font-bold mb-4 text-center">Create an Account</h2>
         <form onSubmit={handleSignUp}>
+          {/* Username Field */}
+          <div className="mb-4">
+            <label className="font-roboto block text-gray-700">Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-3 py-2 border rounded-lg font-roboto"
+              required
+            />
+          </div>
+
+          {/* Email Field */}
           <div className="mb-4">
             <label className="font-roboto block text-gray-700">Email</label>
             <input
@@ -36,6 +78,8 @@ const SignUp = () => {
               required
             />
           </div>
+
+          {/* Password Field */}
           <div className="mb-6">
             <label className="font-roboto block text-gray-700">Password</label>
             <input
@@ -46,6 +90,7 @@ const SignUp = () => {
               required
             />
           </div>
+
           <button type="submit" className="w-full bg-mainOrange text-white py-2 rounded-lg font-roboto font-bold">
             Sign Up
           </button>
@@ -66,6 +111,16 @@ const SignUp = () => {
           </p>
         </div>
       </div>
+      <ToastContainer 
+        position="top-right" // Positioning the toast in the top right corner
+        autoClose={5000} // Auto-close after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        newestOnTop={true} // New toasts appear on top
+        closeOnClick // Allow closing on click
+        pauseOnHover // Pause on hover
+        draggable // Allow dragging
+        pauseOnFocusLoss // Pause on focus loss
+      />
     </div>
   );
 };

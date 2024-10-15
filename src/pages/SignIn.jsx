@@ -1,13 +1,28 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../firebase'; // Import Firebase auth
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { ToastContainer, toast } from 'react-toastify'; // Import toast components
+import 'react-toastify/dist/ReactToastify.css'; // Import CSS for toast notifications
 
-const SignIn = () => {
+const SignIn = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Hook for navigation
 
-  const handleSignIn = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
-    // Handle sign-in logic (e.g., call API)
+    try {
+      // Sign in with email and password
+      await signInWithEmailAndPassword(auth, email, password);
+      setIsAuthenticated(true); // Update the authentication state
+      toast.success('Sign in successful!'); // Show success toast
+      navigate('/'); // Redirect to home or another page after sign-in
+    } catch (error) {
+      console.error("Error signing in:", error);
+      toast.error('Failed to sign in. Please check your credentials.'); // Show error toast
+    }
   };
 
   return (
@@ -66,6 +81,16 @@ const SignIn = () => {
           </p>
         </div>
       </div>
+      <ToastContainer 
+        position="top-right" // Positioning the toast in the top right corner
+        autoClose={5000} // Auto-close after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        newestOnTop={true} // New toasts appear on top
+        closeOnClick // Allow closing on click
+        pauseOnHover // Pause on hover
+        draggable // Allow dragging
+        pauseOnFocusLoss // Pause on focus loss
+      />
     </div>
   );
 };

@@ -1,22 +1,74 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { db, auth, storage } from "../firebase"; // Adjust the path as needed
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { ref, getDownloadURL } from "firebase/storage"; // Importing getDownloadURL
 
 const Profile = () => {
-  const [username, setUsername] = useState("JohnDoe");
-  const [profilePicture, setProfilePicture] = useState(
-    "https://d2qp0siotla746.cloudfront.net/img/use-cases/profile-picture/template_3.jpg"
-  );
-  const [location, setLocation] = useState("San Francisco, CA");
-  const [bio, setBio] = useState(
-    "This is a brief bio about the user. Here, you can include interests, hobbies, or any relevant personal information."
-  );
+  const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
+  const [location, setLocation] = useState("");
+  const [bio, setBio] = useState("");
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Sample posts data
-  const posts = Array.from({ length: 8 }, (_, index) => ({
-    id: index,
-    image: 'https://images.pexels.com/photos/18936031/pexels-photo-18936031/free-photo-of-korean-bbq-restaurant.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-  }));
+  // Get the current user's ID
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid); // Set the user ID if the user is logged in
+      } else {
+        setUserId(null); // No user is signed in
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Fetch profile data and posts from Firestore
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      if (!userId) return; // Wait until we have the userId
+
+      try {
+        // Fetch user profile data
+        const userDoc = await getDoc(doc(db, "users", userId));
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          setUsername(data.username || "User"); // Default username
+          setLocation(data.location || "Location not set");
+          setBio(data.bio || "No bio available");
+
+          // Fetch profile picture URL from Firebase Storage
+          const profilePicRef = ref(storage, `profilePictures/${userId}`);
+          const url = await getDownloadURL(profilePicRef);
+          setProfilePicture(url); // Set the profile picture URL
+        }
+
+        // Fetch user posts
+        const postsCollection = collection(db, "posts");
+        const postsSnapshot = await getDocs(postsCollection);
+        const userPosts = postsSnapshot.docs
+          .map((doc) => ({ id: doc.id, ...doc.data() }))
+          .filter((post) => post.userId === userId); // Filter posts by user ID
+
+        setPosts(userPosts);
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfileData();
+  }, [userId]); // Depend on userId to re-fetch data when it changes
+
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading state while fetching data
+  }
 
   return (
     <div className="container mx-auto p-6">
@@ -50,22 +102,25 @@ const Profile = () => {
       <div className="mb-6 p-4 border rounded-lg shadow-md bg-white">
         <h2 className="font-semibold text-2xl mb-2">Contact Information</h2>
         <p className="text-gray-700">Email: johndoe@example.com</p>
-        <p className="text-gray-700">Phone: +123456789</p>
       </div>
 
       {/* Posts Section */}
       <h2 className="font-semibold text-2xl mb-4">Posts</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {posts.map((post) => (
-          <Link key={post.id} to={`/post/${post.id}`} className="block">
-            <img
-              src={post.image}
-              alt={`Post Thumbnail ${post.id}`}
-              className="w-full h-52 rounded-lg object-cover"
-            />
-          </Link>
-        ))}
-      </div>
+      {posts.length === 0 ? (
+        <p className="text-gray-700">You have no posts</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {posts.map((post) => (
+            <Link key={post.id} to={`/post/${post.id}`} className="block">
+              <img
+                src={post.image}
+                alt={`Post Thumbnail ${post.id}`}
+                className="w-full h-52 rounded-lg object-cover"
+              />
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
