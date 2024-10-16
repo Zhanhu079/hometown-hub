@@ -10,8 +10,6 @@ import {
   IoPersonOutline,
   IoPerson,
   IoLogOutOutline,
-  IoSearchOutline,
-  IoSearch,
   IoMegaphoneOutline,
   IoMegaphone,
 } from "react-icons/io5";
@@ -36,17 +34,6 @@ const Navbar = () => {
           )}
           <span className="absolute left-full ml-2 p-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             Home
-          </span>
-        </Link>
-
-        <Link to={"/search"} className="relative flex items-center group">
-          {location.pathname === "/search" ? (
-            <IoSearch size={30} className={activeStyle} />
-          ) : (
-            <IoSearchOutline size={30} className={inactiveStyle} />
-          )}
-          <span className="absolute left-full ml-2 p-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            Search
           </span>
         </Link>
 
