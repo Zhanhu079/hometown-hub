@@ -47,13 +47,16 @@ const PostDetails = () => {
             const userDoc = await getDoc(userDocRef);
             if (userDoc.exists()) {
               const userData = userDoc.data();
-              
+
               // Check if profile picture needs to be fetched from storage
               if (userData.profilePicture) {
-                const profilePicRef = ref(getStorage(), userData.profilePicture);
+                const profilePicRef = ref(
+                  getStorage(),
+                  userData.profilePicture
+                );
                 userData.profilePicture = await getDownloadURL(profilePicRef);
               }
-              
+
               setUser(userData);
             } else {
               setError("User not found.");
@@ -101,16 +104,25 @@ const PostDetails = () => {
                   alt={`${user.username}'s profile`}
                 />
               )}
-              <p className="font-semibold text-gray-800">{user ? user.username : 'Unknown User'}</p>
+              <p className="font-semibold text-gray-800">
+                {user ? user.username : "Unknown User"}
+              </p>
             </div>
-            <p className="text-white font-semibold text-xs inline-block px-2 py-1 rounded-full border-2
-            border-mainOrange bg-orange-500 bg-opacity-70">
+            <p
+              className="text-white font-semibold text-xs inline-block px-2 py-1 rounded-full border-2
+            border-mainOrange bg-orange-500 bg-opacity-70"
+            >
               {post.category}
             </p>
-            <p className="font-roboto my-2 text-gray-800 text-sm">{post.caption}</p>
+            <p className="font-roboto my-2 text-gray-800 text-sm">
+              {post.caption}
+            </p>
             <p className="text-gray-500 font-poppins text-xs mt-2">
               {formatDate(post.createdAt)}
             </p>
+          </div>
+          <div className="p-5">
+            <h1 className="font-semibold  font-quicksand">Comments</h1>
           </div>
         </div>
       )}
