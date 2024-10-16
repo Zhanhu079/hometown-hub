@@ -94,7 +94,9 @@ const Navbar = () => {
             Profile
           </span>
         </Link>
-        <IoLogOutOutline size={30} className={inactiveStyle} />
+        <Link to={"/signin"}>
+          <IoLogOutOutline size={30} className={inactiveStyle} />
+        </Link>
       </div>
     </div>
   );

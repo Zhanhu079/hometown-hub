@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { IoHeartOutline, IoChatbubbleOutline } from "react-icons/io5";
 
 const Post = ({
   profilePic,
@@ -7,8 +6,6 @@ const Post = ({
   caption,
   createdAt, // Changed from postedOn to createdAt
   content,
-  likes,
-  commentsCount,
 }) => {
   // Format the createdAt timestamp
   const formatDate = (timestamp) => {
@@ -38,17 +35,7 @@ const Post = ({
         />
       )}
 
-      {/* Post actions */}
-      <div className="mt-3 flex items-center">
-        <div className="flex">
-          <IoHeartOutline size={23} className="text-slate-600" />
-          <span className="text-slate-600">{likes}</span>
-        </div>
-        <div className="flex">
-          <IoChatbubbleOutline size={23} className="text-slate-600 ml-5" />
-          <span className="text-slate-600">{commentsCount}</span>
-        </div>
-      </div>
+      
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { db } from '../firebase'; // Import your Firebase configuration
-import { collection, addDoc } from 'firebase/firestore'; // Import Firestore functions
+import { db } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

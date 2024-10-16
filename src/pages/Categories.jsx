@@ -8,6 +8,7 @@ import {
   IoHelpOutline,
 } from "react-icons/io5";
 import CategoryCard from "../components/CategoryCard";
+import { Link } from "react-router-dom";
 
 const Categories = () => {
   // Array of category data
@@ -62,13 +63,15 @@ const Categories = () => {
 
       <div className="mt-20 mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 max-w-screen-xl">
         {categories.map((category, index) => (
-          <CategoryCard
+          <Link key={index} to={`/categories/${category.title.toLowerCase()}`}>
+            <CategoryCard
             key={index}
             title={category.title}
             icon={category.icon}
             bgColor={category.bgColor}
             description={category.description}
           />
+          </Link>
         ))}
       </div>
     </div>

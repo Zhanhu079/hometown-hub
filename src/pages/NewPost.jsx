@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
-import { db } from "../firebase"; // Import your Firebase Firestore configuration
-import { collection, addDoc, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore"; // Import Firestore functions
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"; // Import Firebase Storage functions
-import { getAuth } from "firebase/auth"; // Import Firebase Authentication
+import { db } from "../firebase";
+import { collection, addDoc, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getAuth } from "firebase/auth"; 
 
 const NewPost = () => {
   const [caption, setCaption] = useState("");

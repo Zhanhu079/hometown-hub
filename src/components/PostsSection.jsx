@@ -15,7 +15,7 @@ const PostsSection = () => {
         const postsSnapshot = await getDocs(postsCollection); // Fetch the posts
         const postsList = [];
 
-        // Loop through posts and fetch the latest username
+        // Loop through posts and fetch the latest username and comments
         for (const postDoc of postsSnapshot.docs) {
           const postData = postDoc.data();
 
@@ -25,9 +25,15 @@ const PostsSection = () => {
 
           if (userDoc.exists()) {
             const userData = userDoc.data();
+
+            // Store comments in a state variable
+            const comments = postData.comments || []; // Initialize comments as an empty array if not present
+
             postsList.push({
               id: postDoc.id,
               username: userData.username, // Use the up-to-date username
+              comments, // Store comments array in the post data
+              commentsCount: comments.length, // Calculate the number of comments
               ...postData, // Include the rest of the post data
             });
           } else {
@@ -61,8 +67,7 @@ const PostsSection = () => {
             createdAt={post.createdAt} // Assuming createdAt is a field in your Firestore document
             caption={post.caption} // Assuming caption is a field in your Firestore document
             content={post.content} // Assuming content is a field in your Firestore document
-            likes={post.likes} // Assuming likes is a field in your Firestore document
-            commentsCount={post.commentsCount} // Assuming commentsCount is a field in your Firestore document
+            commentsCount={post.commentsCount} // Pass the calculated commentsCount to Post component
           />
         </Link>
       ))}

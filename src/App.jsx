@@ -7,11 +7,11 @@ import NewPost from "./pages/NewPost";
 import NewAnnouncement from "./pages/NewAnnouncement";
 import Settings from "./pages/settings/Settings";
 import Profile from "./pages/Profile";
-import NotFound from "./pages/NotFound";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import 'react-toastify/dist/ReactToastify.css';
 import PostDetails from "./pages/PostDetails";
+import Filter from "./pages/Filter";
 
 function App() {
   // State to track if the user is authenticated
@@ -46,8 +46,8 @@ function App() {
                   <Route path="/new_announcement" element={<NewAnnouncement />} />
                   <Route path="/settings/*" element={<Settings />} />
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/notfound" element={<NotFound />} />
                   <Route path="/post/:postId" element={<PostDetails />} />
+                  <Route path="/categories/:id" element={<Filter />} />
                 </Routes>
               </div>
             </div>
