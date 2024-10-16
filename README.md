@@ -1,7 +1,7 @@
 
 ## Hometown Hub
 
-## Hometown Hub is a local community bulletin board application that allows users to share posts and announcements within their community. Built with React and Firebase, this app provides a seamless and interactive experience for users to stay connected and informed about local events, news, and resources.
+Hometown Hub is a local community bulletin board application that allows users to share posts and announcements within their community. Built with React and Firebase, this app provides a seamless and interactive experience for users to stay connected and informed about local events, news, and resources.
 
 
 
